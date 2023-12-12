@@ -28,15 +28,13 @@ def weights_init(m):
 
 def train(config):
 
-	os.environ['CUDA_VISIBLE_DEVICES']='0'
-
 	DCE_net = model.enhance_net_nopool().cuda()
 
 	DCE_net.apply(weights_init)
 	if config.load_pretrain == True:
 		DCE_net.load_state_dict(torch.load(config.pretrain_dir))
-		train_dataset = dataloader.lowlight_loader(config.lowlight_images_path)
 
+	train_dataset = dataloader.lowlight_loader(config.lowlight_images_path)
 	train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config.train_batch_size, shuffle=True, num_workers=config.num_workers, pin_memory=True)
 
 
